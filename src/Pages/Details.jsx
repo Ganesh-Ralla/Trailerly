@@ -96,7 +96,7 @@ const Details = () => {
     if (!movie) return <p>Loading...</p>
 
     return (
-        <main className=' mt-14 md:mt-20 '>
+        <main className=' mt-14 md:mt-20 text-white '>
             <div className=' relative'>
                 {
                     showTrailer ? <div>
