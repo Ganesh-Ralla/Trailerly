@@ -38,7 +38,7 @@ const MovieCard = ({ movies, type }) => {
         )
     } else if (type === "recommendations" || type === "search") {
         return (
-            <div className=" mt-4 grid grid-cols-2 md:grid-cols-4 md:gap-6 lg:grid-cols-6 gap-4">
+            <div className=" mt-4 grid grid-cols-2 md:grid-cols-3 md:gap-6 lg:grid-cols-6 gap-4">
                 {
                     movies.map((movie) => {
                         return (

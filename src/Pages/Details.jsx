@@ -161,11 +161,11 @@ const Details = () => {
             <div className=' p-4 md:px-8 lg:p-12'>
                 <p className=' text-2xl font-bold'>Overview</p>
                 <p className=' text-lg font-bold'>Cast</p>
-                <div className='flex overflow-x-auto items-center gap-8 my-4'>
+                <div className='flex overflow-x-auto no-scrollbar items-center gap-8 my-4'>
                     {
                         movieDetails?.cast?.slice(0, 10)?.map((cast) => {
                             return (
-                                <div key={cast?.id} className="text-center">
+                                <div key={cast?.id} className="text-center flex flex-col  items-center">
 
                                     <div className='h-20 w-20 rounded-full overflow-hidden'>
                                         <img src={cast.profile_path ? `https://image.tmdb.org/t/p/w500${cast.profile_path}` : "https://via.placeholder.com/100x100?text=No+Image"}
@@ -179,7 +179,7 @@ const Details = () => {
                     }
                 </div>
 
-                <div className=' my-4'>
+                <div className=' my-4 '>
                     <p className=' font-bold text-lg'>Recommended</p>
                     <MovieCard movies={recommendations.movies} type="recommendations" />
                 </div>
