@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import axios from 'axios'
-import { Play, Star, X } from 'lucide-react'
+import { Heart, Play, Star, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Bounce, toast } from 'react-toastify'
@@ -77,37 +77,52 @@ const Details = () => {
 
     }
 
-    const addToFavourite = (id) => {
-        let favs = JSON.parse(localStorage.getItem("favorite"))
+    const [isFav, setIsFav] = useState(false)
+    useEffect(() => {
+        const favs = JSON.parse(localStorage.getItem("favorite")) || []
+        setIsFav(favs.includes(Number(id)))
+    }, [id])
 
-        if (!Array.isArray(favs)) {
-            favs = []
-        }
+    const toggleFavourite = (id) => {
+        let favs = JSON.parse(localStorage.getItem("favorite")) || []
 
-        if (!favs.includes(id)) {
-            favs.push(id)
-            localStorage.setItem("favorite", JSON.stringify(favs))
-            toast.success("Added to Favourites")
+        if (favs.includes(id)) {
+            favs = favs.filter(fav => fav !== id)
+            toast.info("Removed from Favourites")
+            setIsFav(false)
         } else {
-            toast.info("Already in Favourites")
+            favs.push(id)
+            toast.success("Added to Favourites")
+            setIsFav(true)
         }
+
+        localStorage.setItem("favorite", JSON.stringify(favs))
     }
+
+    
 
     if (!movie) return <p>Loading...</p>
 
     return (
-        <main className=' mt-14 md:mt-20 text-white '>
+        <main className=' mt-14 md:mt-20 lg:mt-0 text-white '>
             <div className=' relative'>
                 {
                     showTrailer ? <div>
                         <YouTube className=' relative aspect-video' videoId={video}
                             opts={{ width: '100%', height: '100%', playerVars: { autoplay: 1, mute: 0 } }} />
-                        <button onClick={() => { setShowTrailer(false) }} className=' absolute top-2 right-2 bg-black/70 text-white px-3 py-1 rounded-full hover:cursor-pointer'><X /> </button>
+                        <button onClick={() => { setShowTrailer(false) }} className=' absolute top-2 md:top-20 right-2 bg-black/70 text-white px-3 py-1 rounded-full hover:cursor-pointer'><X /> </button>
                     </div> : <img src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`} alt=""
                         className=' w-full aspect-video ' />
                 }
                 <div className='p-4 md:hidden'>
-                    <p className='font-semibold text-lg'>{movie.title}</p>
+                    <div className=' flex items-center justify-between'>
+                        <p className='font-semibold text-lg'>{movie.title}</p>
+                        <Heart
+                            onClick={() => toggleFavourite(movie.id)}
+                            className={`cursor-pointer transition ${isFav ? "fill-red-500 text-red-500" : "text-white"
+                                }`}
+                        />
+                    </div>
                     <p className='flex items-center gap-2 my-2 text-sm'><Star size={20} />{movie.popularity}</p>
                     <p className='text-sm'>Release date : {movie.release_date}</p>
                     <button
@@ -121,17 +136,24 @@ const Details = () => {
                 </div>
                 {
                     !showTrailer &&
-                    <div className='hidden md:block p-4 md:absolute bottom-0 md:text-white md:px-8 lg:px-12'>
-                        <p className=' font-semibold text-lg md:text-2xl'>{movie.title}</p>
-                        <p className=' flex items-center gap-2 my-2 text-sm'><Star size={20} />{movie.popularity}</p>
-                        <p className=' text-sm'>Release date : {movie.release_date}</p>
-                        <div className=' flex items-center gap-4'>
-                            <button onClick={() => video ? setShowTrailer(true) : handleNoTrailer()} className=' my-2 flex items-center gap-2 p-2 bg-blue-600 text-white rounded-2xl w-full md:w-40 justify-center'><Play size={20} /> Play Trailer</button>
-                            <button onClick={() => addToFavourite(movie.id)} className=' whitespace-nowrap my-2 flex items-center gap-2 p-2 bg-blue-600 text-white rounded-2xl w-full md:w-40 justify-center'><Play size={20} /> Add to Favourite</button>
+                    <div className='hidden md:block p-4 md:absolute bottom-2 md:text-white md:px-8 lg:px-12'>
+                        <p className=' font-semibold text-lg md:text-2xl lg:text-4xl lg:font-bold'>{movie.title}</p>
+                        <p className=' flex items-center gap-2 my-2 text-sm md:text-lg'><Star size={20} />{movie.popularity}</p>
+                        <p className=' text-sm md:text-lg'>Release date : {movie.release_date}</p>
+                        <div className='flex items-center gap-4'>
+                            <button onClick={() => video ? setShowTrailer(true) : handleNoTrailer()}
+                                className='hover:cursor-pointer my-2 flex items-center gap-2 p-2 bg-blue-600 text-white rounded-2xl w-full md:w-40 justify-center'>
+                                <Play size={20} /> Play Trailer
+                            </button>
 
+                            <button onClick={() => toggleFavourite(movie.id)}
+                                className='hover:cursor-pointer my-2 flex items-center gap-2 p-2 bg-blue-600 text-white rounded-2xl w-full md:w-40 justify-center'>
+                                <Heart className={`${isFav ? "fill-white" : ""}`} />
+                                {isFav ? "Remove" : "Add"}
+                            </button>
                         </div>
                         <p className={readmore ? '' : 'line-clamp-3 md:line-clamp-1 '}>{movie.overview}</p>
-                        <p className=' text-blue-600' onClick={handleRead}>{read}</p>
+                        <p className=' text-blue-600 hover:cursor-pointer' onClick={handleRead}>{read}</p>
                     </div>
                 }
             </div>
@@ -150,7 +172,7 @@ const Details = () => {
                                             alt={cast?.name} className='w-full h-full object-cover' />
                                     </div>
 
-                                    <p className='text-sm mt-1'>{cast?.name}</p>
+                                    <p className='text-sm mt-1 whitespace-nowrap'>{cast?.name}</p>
                                 </div>
                             )
                         })

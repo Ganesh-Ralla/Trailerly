@@ -5,7 +5,7 @@ const MovieCard = ({ movies,searchTaken }) => {
     const navigate = useNavigate()
     return (
         <>
-            <div className={searchTaken ? "grid grid-cols-2 md:grid-cols-4 md:gap-6 lg:grid-cols-5 gap-4" : " flex  items-center gap-4 w-full my-4 overflow-x-auto scrollbar-hide"}>
+            <div className={searchTaken ? " mt-14 grid grid-cols-2 md:grid-cols-4 md:gap-6 lg:grid-cols-6 gap-4" : " flex  items-center gap-4 w-full my-4 overflow-x-auto no-scrollbar scrollbar-hide"}>
                 {
                     movies.map((movie) => {
                         return (
