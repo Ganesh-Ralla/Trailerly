@@ -26,11 +26,11 @@ const Favourites = () => {
   }, [])
 
   return (
-    <main className='mt-14 p-4 text-white'>
+    <main className='mt-14 p-4 md:px-8 lg:px-12 text-white'>
       <p className='text-xl font-bold mb-4'>Favourites</p>
 
       {
-        movies.length === 0 ? <p className=' text-center opacity-75 h-[50vh]'>No favourites added</p> : <MovieCard movies={movies} searchTaken />
+        movies.length === 0 ? <p className=' text-center opacity-75 h-[50vh]'>No favourites added</p> : <MovieCard movies={movies} type='favorite' />
       }
     </main>
   )
