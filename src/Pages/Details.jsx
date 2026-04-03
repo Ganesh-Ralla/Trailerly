@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import { Heart, Play, Star, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
@@ -181,7 +181,7 @@ const Details = () => {
 
                 <div className=' my-4'>
                     <p className=' font-bold text-lg'>Recommended</p>
-                    <MovieCard movies={recommendations.movies} />
+                    <MovieCard movies={recommendations.movies} type="recommendations" />
                 </div>
             </div>
         </main>

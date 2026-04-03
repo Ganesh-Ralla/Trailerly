@@ -8,7 +8,7 @@ const SearchPage = ({searchInput,searchTaken}) => {
     
   return (
     <main className=' mt-14 p-4 md:px-8 lg:px-12 text-white  '>
-        <MovieCard searchTaken={searchTaken} movies={searchMovies.movies} />
+        <MovieCard searchTaken={searchTaken} movies={searchMovies.movies} type="search" />
     </main>
   )
 }
