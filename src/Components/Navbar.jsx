@@ -1,16 +1,24 @@
 import { Search } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
 const Navbar = ({ openSearchBar, setOpenSearchBar, searchInput, setSearchInput, setSearchTaken }) => {
 
 
     const navigate = useNavigate()
+    const inputRef = useRef(null)
 
     const handleSearch = (e) => {
         setSearchInput(e.target.value)
 
     }
+
+    useEffect(()=>{
+        if(openSearchBar){
+            inputRef.current?.focus()
+        }
+    },[openSearchBar])
+
     const handleKey = (e) => {
         if (e.key === "Enter") {
             setSearchTaken(true)
@@ -43,7 +51,7 @@ const Navbar = ({ openSearchBar, setOpenSearchBar, searchInput, setSearchInput, 
                 openSearchBar &&
                 <div className=''>
                     <input type="text" className=' text-white px-4 mt-4 outline-0 border-0 bg-[#849af1] w-full rounded-full p-3'
-                        placeholder='Search' value={searchInput}
+                        placeholder='Search' value={searchInput} ref={inputRef}
                         onChange={handleSearch} onKeyDown={handleKey} />
                 </div>
             }
