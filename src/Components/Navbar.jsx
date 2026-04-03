@@ -30,7 +30,7 @@ const Navbar = ({ openSearchBar, setOpenSearchBar, searchInput, setSearchInput, 
                 <Search className=' md:hidden' onClick={() => { setOpenSearchBar(!openSearchBar) }} />
                 <div className=' hidden md:flex md:items-center gap-4'>
                     <Link className=' flex items-center gap-2 p-2 border rounded-full'  >
-                        <input type="text" name="" id="" className=' border-0 outline-0 px-2 pe-14'
+                        <input type="text" name="" id="" className=' text-white border-0 outline-0 px-2 pe-14'
                             placeholder='Search' value={searchInput} onChange={handleSearch} onKeyDown={handleKey} />
                         <Search />
                     </Link>
@@ -42,7 +42,7 @@ const Navbar = ({ openSearchBar, setOpenSearchBar, searchInput, setSearchInput, 
             {
                 openSearchBar &&
                 <div className=''>
-                    <input type="text" className=' px-4 mt-4 outline-0 border-0 bg-[#849af1] w-full rounded-full p-3'
+                    <input type="text" className=' text-white px-4 mt-4 outline-0 border-0 bg-[#849af1] w-full rounded-full p-3'
                         placeholder='Search' value={searchInput}
                         onChange={handleSearch} onKeyDown={handleKey} />
                 </div>
